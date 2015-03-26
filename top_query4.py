@@ -98,6 +98,7 @@ def top(names=['input'], path_in='Data', path_out='Output', **pargs):
     split_by_key = pargs.get('split_by_key', False)
     col_key = pargs.get('col_key', False)
     transform_key = pargs.get('transform_key', False)
+    req_per_day = pargs.get('req_per_day', False)
 
     # Если нужно разбить топ по отдельным файлам, используя для разбиения
     # ключи из какого-либо столбца, и эти ключи нужно ещё преобразовать,
@@ -157,6 +158,10 @@ def top(names=['input'], path_in='Data', path_out='Output', **pargs):
             # если нужно, преобразуем запрос в строчные буквы
             if lower:
                 query = query.lower()
+            
+            #если необходимо подсчитать количество запросов по дням
+            if req_per_day:            
+                query = time.strftime("%d.%m.%Y", time.localtime(int(query)))
 
             # если необходимо работать с частями запроса (например, словами)
             if separator:
